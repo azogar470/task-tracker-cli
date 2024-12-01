@@ -1,4 +1,5 @@
 from datetime import datetime
+from prettytable  import PrettyTable
 import pytz
 import json
 
@@ -15,9 +16,15 @@ current = int(keys[len(keys)-1])+1
 print(options)
 x = str(input("select option:" )).lower()
 
+#listing in tabular format
+table = PrettyTable()
+table.field_names = ["task no","task title","completed","time created"]
+for key in tasks:
+    table.add_row([key,tasks[key]["name"],tasks[key]["completed"],tasks[key]["time_created"]])
+
 ##coditions according to the input
 if x=="list":
-    print(tasks)
+    print(table)
 
 elif(x=="create"):
     y=str(input("add task:"))
@@ -28,6 +35,7 @@ elif(x=="create"):
     }
 
 elif x=="delete":
+    print(table)
     d=str(input("enter the number of task to delete "))
     del tasks[d]
 
@@ -36,7 +44,7 @@ elif(x=="mark-done"):
     tasks[z]["completed"]=True
 
 elif x == "update":
-    print(tasks)
+    print(table)
     num=str(input("enter the number of the task want to update :"))
     nam=str(input("enter the new name of the task:"))
     tasks[num]["name"] = nam
@@ -48,4 +56,3 @@ else:
 json_object = json.dumps(tasks , indent=4)
 with open("tasks.json","w") as outfile:
     outfile.write(json_object)
-
