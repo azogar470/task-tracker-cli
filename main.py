@@ -3,7 +3,15 @@ from prettytable  import PrettyTable
 import pytz
 import json
 
+#giving options to select 
 options = {"create","update","mark-done","list","delete"}
+opt = PrettyTable()
+opt.field_names=["options"]
+for o in options:
+    opt.add_row([o])
+
+
+
 #reading JSON file
 with open('tasks.json','r') as openfile:
     tasks = json.load(openfile)
@@ -13,8 +21,8 @@ keys=list(tasks.keys())
 current = int(keys[len(keys)-1])+1
 
 #taking input from the user
-print(options)
-x = str(input("select option:" )).lower()
+print(opt)
+x = str(input("select option: " )).lower()
 
 #listing in tabular format
 table = PrettyTable()
@@ -33,6 +41,7 @@ elif(x=="create"):
         "completed": False,
         "time_created":str(datetime.now(pytz.timezone('Asia/Kolkata')))
     }
+    print("your new task is added.")
 
 elif x=="delete":
     print(table)
@@ -40,6 +49,7 @@ elif x=="delete":
     del tasks[d]
 
 elif(x=="mark-done"):
+    print(table)
     z = str(input("type task id for complition:"))
     tasks[z]["completed"]=True
 
